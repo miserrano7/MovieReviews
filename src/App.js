@@ -1,22 +1,21 @@
-import logo from './logo.svg';
 import './App.css';
-
+import React, {useState} from 'react';
+//need code here that will fetch info from the endpoint displaying movie info
+//need a save button
 function App() {
+  const [id, setID] = useState([]);
+  //const [comment, setComment] = useState("");
+  //const [rating, setRating] = useState("");
+
+    let x= fetch("/userReviews").then(response => response.json())
+     .then(data => setID(data));
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        {id.map(com => (
+        <p> THis: {com.x} </p>
+        ))}
       </header>
     </div>
   );

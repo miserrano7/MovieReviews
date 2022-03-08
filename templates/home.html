@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <link rel="stylesheet" href="/static/theme.css"> 
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+</head>
+    <body id ="body">
+        <!-- https://stackoverflow.com/questions/63541731/using-flask-how-does-the-logout-button-call-the-logout-function -->
+        <a href="{{url_for('logout')}}" id= "button" class="btn btn-primary fonts2">Logout</a>
+
+<div class="container" >
+<h1 class="fonts" id= "title">{{titles}}</h1>
+</div>
+    <div class="container">
+        <div class="row">
+    <div class="col-4"> 
+    <img class ="border" id="sizing" src={{image}} >
+     </div>
+
+    
+<div class="col-md-8 border border-black">
+
+<div class="row-4" >
+<p class="fonts text-center" id="italic" > {{tagline}}</p>
+</div>
+
+<div class="row-4">
+<p class="fonts text-center"> <b>Genres:</b> {{genres}}</p>
+</div>
+
+<div class="row-4 text-center fonts">
+<a href={{urlLink}} > 
+    Click here to see more information on {{titles}}!</a>
+   </div>
+
+</div>
+</div>
+</div>
+
+<!---  will add some forms for reviews and comments here   -->
+<div class="container">
+<div class="row">
+     <h1 class="color center fonts2"> Enter a rating from 1-10: </h1>
+    <form  class="center" method="POST" action="/main">
+        <input type="text" name="movieid" value="{{randomPICK}}" readonly>
+        <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range helped with validation -->
+        <input type="number" name="rating" min="1" max="10" required><br>
+        <h1 class="color fonts2"> Enter your comment here: </h1>
+        <textarea rows = "5" cols = "50" name = "comment">
+        </textarea><br>
+        <input type="submit" value="Submit"/>
+    </form>
+</div>
+</div>
+  
+<div class="container">
+    <div class="row">
+        <!-- start display ratings  -->
+        <h1  class="color center fonts border border-black"> Reviews 
+            <a href="{{url_for('bp.index')}}" id= "button" class="btn btn-primary fonts2">Edit Reviews</a>
+
+        </h1>
+     <div>
+         </div>
+        
+        <div class="container">
+            <div class="row">
+        <table style="width:100%" class="center">
+
+            <tr center="center">
+              <th class="colorB fonts pad" style="font-size: 30px; width: 30%">User</th>
+              <th class="colorB fonts center" style="font-size: 30px; width: 30%">Rating</th>
+              <th class="colorB fonts " style="font-size: 30px; width: 30%" >Comment</th>
+            </tr>
+
+            {%for i in range(0, lenC)%}
+            <tr center="center">
+              <td class="color fonts2 center pad padbot">{{allUsers[i]}} </td>
+              <td class="color fonts2 center padbot" style="width: 30%">{{allRatings[i]}} </td>
+              <td class="color fonts2 padbot">{{allComments[i]}} </td>
+            </tr>
+            {%endfor%} 
+          </table>
+        </div>
+        </div>
+
+     </body>
+
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+     integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        </html>
