@@ -13,8 +13,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <p style={{color: "pink",fontSize:50,fontWeight: 'bold'}}> The comments and ratings you have entered: </p>
         {id.map(com => (
-        <p> THis: {com.x} </p>
+        <p> Id: {com.id}, MovieID: {com.movieid}, Comments: {com.comments}, Ratings: {com.ratings} </p>
         ))}
       </header>
     </div>

@@ -148,28 +148,21 @@ def userReviews():
     #get the user id then for all those ids get that!!will get the whole tuple, then access the elemts at 
     #comments and at ratings then allow for changes there somehow 
     user_name=current_user.username
-    queryid = Reviews.query.filter_by(user_name=user_name).all()
-    num = len(queryid) 
-
-    allComments = [queryid[tple].comment for tple in range(num)]
+    queryUser = Reviews.query.filter_by(user_name=user_name).all()
+    num = len(queryUser) 
+    #accessing all columns from reviews table for this specific logged in user
+    allIds =[queryUser[tple].id for tple in range(num)]
+    allMovieIds= [queryUser[tple].movieIDs for tple in range(num)]
+    allComments = [queryUser[tple].comment for tple in range(num)]
+    #only need the length of one since they're all the same length
     num2= len(allComments)
-    allR = [queryid[tple].rating for tple in range(num)]
-    #need a key 
-    di={}
-    di2={}
-    for i in range(0,num2):
-        #di[allComments[i-1]] = allR[i-1]
-        #di = {"comments":  allComments[i], "ratings":allR[i]} 
-        #di2={"comments":allComments[i], "ratings":allR[i]}
-        #di= {"comment" :allComments[i]}
-        di["comments"] = allComments[i]
-        di2["comments"] = allComments[i]
-
-
+    allR = [queryUser[tple].rating for tple in range(num)]
+    
+    #https://stackoverflow.com/questions/31181830/adding-item-to-dictionary-within-loop
     test = []
-    test.append(di)
-    test.append(di2)
-    print(test)
+    for i in range(0,num2):
+        di = {'id': allIds[i],'movieid': allMovieIds[i],'comments':  allComments[i], "ratings":allR[i]} 
+        test.append(di)
     return flask.jsonify(test)
 
 
