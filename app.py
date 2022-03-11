@@ -159,6 +159,7 @@ def userReviews():
     allR = [queryUser[tple].rating for tple in range(num)]
     
     #https://stackoverflow.com/questions/31181830/adding-item-to-dictionary-within-loop
+    #creating list of dictionaries to jsonify and fetch from app.js file 
     test = []
     for i in range(0,num2):
         di = {'id': allIds[i],'movieid': allMovieIds[i],'comments':  allComments[i], "ratings":allR[i]} 
@@ -172,7 +173,6 @@ def logout():
     logout_user()
     return flask.redirect(flask.url_for("home"))
 
-#code that was already here
 app.register_blueprint(bp)
 
 app.run()

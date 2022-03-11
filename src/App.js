@@ -1,25 +1,56 @@
 import './App.css';
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
+import { render } from '@testing-library/react';
 //need code here that will fetch info from the endpoint displaying movie info
 //need a save button
-function App() {
-  const [id, setID] = useState([]);
-  //const [comment, setComment] = useState("");
-  //const [rating, setRating] = useState("");
+  //need a child component for each review
+  function Review(props) {
+    return (<button onClick={props.onClickButton}> Delete Review  </button>);
+  }
 
-    let x= fetch("/userReviews").then(response => response.json())
-     .then(data => setID(data));
+function App() {
+  const [reviews, setReview] = useState([]);
+  const [edit, setEdit] = useState("");
+
+
+  useEffect(() => { fetch("/userReviews").then(response => response.json())
+  .then(data => setReview(data));
+  },[])   
+
+  function handleUpdateRat(event,rating){
+   const newRatings = [...edit].filter((com, revs) => {  return revs});
+   console.log("update rating: ",newRatings);
+   setEdit(newRatings)
+  }
+
+  function handleClick(i) {
+  //const newReview = reviews.slice
+  //newReview= 
+  const newReview = [...reviews].filter((com, revs) => { console.log("Revs: ",revs); console.log("i: ",i);  return revs !==i});   
+  console.log("update: ", newReview);
+  setReview(newReview)
+    }
+
+    function renderReview(com,i) { 
+      return <Review value={com} onClickButton={() => handleClick(i,com)}/>;
+    }
 
   return (
     <div className="App">
       <header className="App-header">
-        <p style={{color: "pink",fontSize:50,fontWeight: 'bold'}}> The comments and ratings you have entered: </p>
-        {id.map(com => (
-        <p> Id: {com.id}, MovieID: {com.movieid}, Comments: {com.comments}, Ratings: {com.ratings} </p>
-        ))}
+        <p style={{color: "pink",fontSize:50,fontWeight: 'bold'}}> The comments and ratings you have entered </p>
+        {reviews.map((com,i) => (
+          <p> ID: {com.id}, MovieID: {com.movieid}, Comment: {com.comments}
+          <form>
+            Rating:
+          <input type="number" value={com.ratings} min="1" max="10" onChange={(event) => handleUpdateRat(event.target.value,com.ratings)}/> 
+         </form>
+         {renderReview(com.comments, i)}
+          </p>
+        ))} 
+        <button onClick={handleClick}> Save Review</button>
       </header>
     </div>
   );
 }
-
 export default App;
