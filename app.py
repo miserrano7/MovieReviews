@@ -1,3 +1,4 @@
+from curses.ascii import DEL
 import os
 import flask
 from flask import Flask, render_template
@@ -166,6 +167,24 @@ def userReviews():
         test.append(di)
     return flask.jsonify(test)
 
+@app.route("/newRoute", methods=["POST"])  
+def update():
+    #function to update the DB based on fetch sent from react 
+    data= flask.request.json
+    print(data)
+    #want to query existing data in DB
+    queryreviewID = Reviews.query.filter_by(id=id).all()
+    num = len(queryreviewID)
+    allUserData =[queryreviewID[tple].id for tple in range(num)]
+    num2= len(allUserData)
+    #cast id as INT !!!!!!! 
+    for i in range(num2):
+        if data[i]["id"] not in allUserData:
+            newData = Reviews(
+            comment=comment, rating=rating, movieIDs=movieid, user_name=user_name)
+            db.dession.delete()
+            db.session.commit()
+    return ""
 
 @app.route("/logout")
 @login_required

@@ -17,10 +17,18 @@ function App() {
   .then(data => setReview(data));
   },[])   
 
-  function handleUpdateRat(event,rating){
-   const newRatings = [...edit].filter((com, revs) => {  return revs});
-   console.log("update rating: ",newRatings);
-   setEdit(newRatings)
+  function handleUpdateRat(event,id){
+    //com.ratings==event
+   const newRatings = [...reviews].map(com => { 
+     if(com.id===id) {
+       com.ratings=event;
+     }
+     return com;
+   })
+   //console.log("update rating: ",newRatings);
+   setReview(newRatings)
+   setEdit(event)
+   //setReview(newRatings)
   }
 
   function handleClick(i) {
@@ -35,6 +43,16 @@ function App() {
       return <Review value={com} onClickButton={() => handleClick(i,com)}/>;
     }
 
+    function saveClick(){
+      fetch("/newRoute", {
+        method: "POST",
+        headers: {"content-type": "application/json",
+        },
+        body: JSON.stringify(reviews)
+      })
+    }
+
+    
   return (
     <div className="App">
       <header className="App-header">
@@ -43,12 +61,12 @@ function App() {
           <p> ID: {com.id}, MovieID: {com.movieid}, Comment: {com.comments}
           <form>
             Rating:
-          <input type="number" value={com.ratings} min="1" max="10" onChange={(event) => handleUpdateRat(event.target.value,com.ratings)}/> 
+          <input type="number" value={com.ratings} min="1" max="10" onChange={(event) => handleUpdateRat(event.target.value,com.id)}/> 
          </form>
          {renderReview(com.comments, i)}
           </p>
         ))} 
-        <button onClick={handleClick}> Save Review</button>
+        <button onClick={saveClick}> Save Review</button>
       </header>
     </div>
   );
