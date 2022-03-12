@@ -1,6 +1,3 @@
-# URL to Heroku App 
-[Follow the link here to see my Heroku app](https://moviesdisplay.herokuapp.com/)
-
 # Technologies Used
 ### Frameworks 
 
@@ -35,7 +32,7 @@ For project 1, we used this API to find a way to get the URL to a specific wikip
 
 # Forking the repository
 Before forking, certain ***installations** need to be made (they can be found below). In your terminal use the command: `git clone < copy and paste ssh url link here>` 
-Now you should be able to open up the source code within your own IDE. Below you will find API Key Instrustions that need to be followed in order to be able to access data. From here you are able to modify the project, and eventually run your project locally with the command `python3 app.py`. 
+Now you should be able to open up the source code within your own IDE. Below you will find API Key Instrustions that need to be followed in order to be able to access data. From here you are able to modify the project, and eventually run your project locally with the command `npm run build` and then `python3 app.py` .
 
 ## Installations for forking 
 1. Install Visual Studio Code
@@ -74,12 +71,13 @@ These secret keys must be put into your .env file to keep the information privat
 (2) Another issue I had was to setting up my input box to allow the user to edit a rating. Initially, before adding logic to the `onChange` function I was 
 unable to change the number or even give any input. I realized that I had to fix my onclick function first to be able to get what the user is inputting. For handling the onClick function, I had to map through the data to check which rating was being changed. Once I set the edit the user was finally able to chnage the rating. [This link helped to understand onchange better.](https://sebhastian.com/react-onchange/#:~:text=In%20React%2C%20onChange%20is%20used,the%20value%20of%20input%20elements.&text=Now%20whenever%20you%20type%20something,passed%20into%20the%20onChange%20prop.)
       
-(3) Another issue I had was that I was unable to 
+(3) Another issue I had was that I was unable to run "npm run build" to update my .js files I changed. I compared this project with the hw7 and realized that I was missing node_modules to get react to work properly. Using the command 'npm ci' helped me install those modules within this project. After I did that I was able to run my code using npm run build, and then python3 app.py.
 
 ***b. ○	What was the hardest part of the project for you, across all milestones? What is the most useful thing you learned, across all milestones?***
 
-Working on this milestone challenged me exactly how I expected it to. While having basic knowledge of database concepts, it helped slightly to understand the concepts of schemas/relations. While working through the planning process, it felt like maybe it would be more straightforward than it actually was for me. Learning how to use flask-login felt very confusing and took many google searches, however i was able to get down the basic concepts. Flask-login felt like the first hurddle of this project. After that, passing the same movie id from my moviesDB file; then querying for that movie ID within the database, and displaying those elements was the hardest part of this project. I had to try many different things and luckily I was able to display the desired content, which corresponds to the movie where the comment was left. However, getting the correct content for each movie took a lot of trail and error as well.
+The hardest part over the three milestones is working with react. Understanding how to work with components and states is a tricky concept for me. In specific, it was challenging understanding how to send data from Flask server to React, and vice versa, and being able to manipulate the data. I found it hard working with states and changing their values to our needs for this project. In addition to that, working with a database is something new for me so it's been hard getting everything down.
 
+The most useful thing has been working with new technology. In previous classes we never really got to build something that was so useful over so many concepts. Although it has been a lot of work, I think we have been able to learn a lot of valuable things. For example, in particular I was able to learn how to work with a framework and using its libraries to build on top of exisiting code, like with the login user functionality. I also think learning about react is very useful too, although that knowledge may need to get developed a bit further.
 
 Other references: 
-Worked with Chihumeya, for asscessing same movie ID which exists in the DB table. 
+Worked with Chihumeya, for deletion on click. 
