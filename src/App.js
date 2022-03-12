@@ -29,7 +29,8 @@ function App() {
   }
 
   function handleClick(i) {
-  const newReview = [...reviews].filter((com, revs) => { console.log("Revs: ",revs); console.log("i: ",i);  return revs !==i});   
+  const newReview = [...reviews].filter((com, revs) => 
+  { console.log("Revs: ",revs); return revs !==i});   
   console.log("update: ", newReview);
   setReview(newReview)
     }

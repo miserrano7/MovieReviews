@@ -202,31 +202,14 @@ def update():
         Reviews.query.filter(Reviews.id==id).delete()
     db.session.commit()
 
-    #if rating is diff for a particular id, update rating to new rating
-    ##updates = []
-    ##existingRatings = []
-    ##for i in range(0,dataLen):
-     ##   dict = {'id': data[i]["id"], "ratings":data[i]["ratings"]} 
-      ##  updates.append(dict)
-      ##  dict2 = {'id': allUserData[i], "ratings": allR[i]} 
-       ## existingRatings.append(dict2)
-
-
-    ##print("dict for updates ratings", updates)
-    ##print("dict for existing in DB", existingRatings)
-
-    #try updating just everything
     
     for i in range(dataLen):
-    # ids = EachData[i]["id"] 
         idReact= data[i]["id"]
         ratings = data[i]["ratings"]
-        print("ratings from react", ratings)
-        #Reviews.query.filter(Reviews.id==idReact).update({Reviews.rating})
-        #item= Users.query.get(Reviews.id==idReact)
-       # item.rating= ratings
-
-        #ratings=ratings
+        if allUserData[i]==idReact:
+            if allR[i]!=ratings:
+                Reviews.query.filter(Reviews.id==idReact).update({Reviews.rating: ratings})
+        db.session.commit()
     return ""
 
 @app.route("/logout")
