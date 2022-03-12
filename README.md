@@ -15,6 +15,7 @@ It allows the user to login, logout, sessions, and allowing for specific routes 
 **Pyscog2-binary** is a library that allows the connection between Python and PostgresSQL (Database Managment System).
 
 **React** React is a javascript library that allows us to build user interfaces. The imporant thing to note about react is that it lets you set up different pages and each user interface built uses components. 
+We have to install Nodes_modules by running "npm ci" to get react to work properly.
 
 # Other Technology
 
