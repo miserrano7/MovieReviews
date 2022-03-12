@@ -12,13 +12,11 @@ function App() {
   const [reviews, setReview] = useState([]);
   const [edit, setEdit] = useState("");
 
-
   useEffect(() => { fetch("/userReviews").then(response => response.json())
   .then(data => setReview(data));
   },[])   
 
   function handleUpdateRat(event,id){
-    //com.ratings==event
    const newRatings = [...reviews].map(com => { 
      if(com.id===id) {
        com.ratings=event;
@@ -28,12 +26,9 @@ function App() {
    //console.log("update rating: ",newRatings);
    setReview(newRatings)
    setEdit(event)
-   //setReview(newRatings)
   }
 
   function handleClick(i) {
-  //const newReview = reviews.slice
-  //newReview= 
   const newReview = [...reviews].filter((com, revs) => { console.log("Revs: ",revs); console.log("i: ",i);  return revs !==i});   
   console.log("update: ", newReview);
   setReview(newReview)
@@ -52,7 +47,7 @@ function App() {
       })
     }
 
-    
+
   return (
     <div className="App">
       <header className="App-header">

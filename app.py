@@ -171,19 +171,62 @@ def userReviews():
 def update():
     #function to update the DB based on fetch sent from react 
     data= flask.request.json
-    print(data)
-    #want to query existing data in DB
-    queryreviewID = Reviews.query.filter_by(id=id).all()
+    dataLen=len(data)
+    print("list of dicts:", data)
+
+    #trying to access data sent from reacct, 
+    #getting each of the ids included
+    EachData=[tple["id"] for tple in data]
+    idlen= len(EachData)
+    print("updated info sent from react", EachData)
+
+     #want to query existing data in DB
+     #need to only get ids from reviews where this user did 
+    user_name=current_user.username
+    queryreviewID = Reviews.query.filter_by(user_name=user_name).all()
     num = len(queryreviewID)
+    print("all stuff in DB", queryreviewID)
+    #getttig the review id from DB
     allUserData =[queryreviewID[tple].id for tple in range(num)]
-    num2= len(allUserData)
-    #cast id as INT !!!!!!! 
-    for i in range(num2):
-        if data[i]["id"] not in allUserData:
-            newData = Reviews(
-            comment=comment, rating=rating, movieIDs=movieid, user_name=user_name)
-            db.dession.delete()
-            db.session.commit()
+    allR = [queryreviewID[tple].rating for tple in range(num)]
+    #num2= len(allUserData)
+    print("ids of reviews from user, in DB" , allUserData)
+    #cast id as INT !!!!!!!     
+
+    list_difference = [item for item in allUserData if item not in EachData]
+    lenDifference = len(list_difference)
+    print(list_difference)
+    for i in range(lenDifference):
+        id = list_difference[i]
+        print("i" , id)
+        Reviews.query.filter(Reviews.id==id).delete()
+    db.session.commit()
+
+    #if rating is diff for a particular id, update rating to new rating
+    ##updates = []
+    ##existingRatings = []
+    ##for i in range(0,dataLen):
+     ##   dict = {'id': data[i]["id"], "ratings":data[i]["ratings"]} 
+      ##  updates.append(dict)
+      ##  dict2 = {'id': allUserData[i], "ratings": allR[i]} 
+       ## existingRatings.append(dict2)
+
+
+    ##print("dict for updates ratings", updates)
+    ##print("dict for existing in DB", existingRatings)
+
+    #try updating just everything
+    
+    for i in range(dataLen):
+    # ids = EachData[i]["id"] 
+        idReact= data[i]["id"]
+        ratings = data[i]["ratings"]
+        print("ratings from react", ratings)
+        #Reviews.query.filter(Reviews.id==idReact).update({Reviews.rating})
+        #item= Users.query.get(Reviews.id==idReact)
+       # item.rating= ratings
+
+        #ratings=ratings
     return ""
 
 @app.route("/logout")
