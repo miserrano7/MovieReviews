@@ -62,7 +62,7 @@ def index():
 def home():
     return render_template("login.html")
 
-    # adding routes from milestone2
+#adding routes from milestone2
 
 
 # adding different routes for login and register
@@ -153,7 +153,7 @@ def main():
 @app.route("/userReviews")
 @login_required
 def userReviews():
-    # get the user id then for all those ids get that!!will get the whole tuple, then access the elemts at
+    # get the user id then for all those ids get that! will get the whole tuple, then access the elemts at
     # comments and at ratings then allow for changes there somehow
     user_name = current_user.username
     query_User = Reviews.query.filter_by(user_name=user_name).all()
@@ -168,7 +168,7 @@ def userReviews():
 
     # https://stackoverflow.com/questions/31181830/adding-item-to-dictionary-within-loop
     # creating list of dictionaries to jsonify and fetch from app.js file
-    test = []
+    listDictReviews = []
     for i in range(0, num2):
         dict = {
             "id": all_Ids[i],
@@ -176,8 +176,8 @@ def userReviews():
             "comments": all_Comments[i],
             "ratings": allR[i],
         }
-        test.append(dict)
-    return flask.jsonify(test)
+        listDictReviews.append(dict)
+    return flask.jsonify(listDictReviews)
 
 
 @app.route("/newRoute", methods=["POST"])
@@ -191,10 +191,9 @@ def update():
     # getting each of the ids included
     EachData = [tple["id"] for tple in data]
     idlen = len(EachData)
-    print("updated info sent from react", EachData)
 
-    # want to query existing data in DB
-    # need to only get ids from reviews where this user did
+    #want to query existing data in DB
+    #need to only get ids from reviews where this user did
     user_name = current_user.username
     queryreviewID = Reviews.query.filter_by(user_name=user_name).all()
     num = len(queryreviewID)
@@ -202,10 +201,7 @@ def update():
     # getttig the review id from DB
     allUserData = [queryreviewID[tple].id for tple in range(num)]
     allR = [queryreviewID[tple].rating for tple in range(num)]
-    # num2= len(allUserData)
-    print("ids of reviews from user, in DB", allUserData)
-    # cast id as INT !!!!!!!
-
+  
     list_difference = [item for item in allUserData if item not in EachData]
     lenDifference = len(list_difference)
     print(list_difference)

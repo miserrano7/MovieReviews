@@ -1,8 +1,8 @@
 import './App.css';
 import React, {useState,useEffect} from 'react';
 import { render } from '@testing-library/react';
-//need code here that will fetch info from the endpoint displaying movie info
-//need a save button
+ //need code here that will fetch info from the endpoint displaying movie info
+ //need a save button
   //need a child component for each review
   function Review(props) {
     return (<button onClick={props.onClickButton}> Delete Review  </button>);
@@ -23,7 +23,7 @@ function App() {
      }
      return com;
    })
-   //console.log("update rating: ",newRatings);
+
    setReview(newRatings)
    setEdit(event)
   }
