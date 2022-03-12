@@ -17,11 +17,11 @@ function App() {
   },[])   
 
   function handleUpdateRat(event,id){
-   const newRatings = [...reviews].map(com => { 
-     if(com.id===id) {
-       com.ratings=event;
+   const newRatings = [...reviews].map(revs => { 
+     if(revs.id===id) {
+       revs.ratings=event;
      }
-     return com;
+     return revs;
    })
 
    setReview(newRatings)
@@ -29,14 +29,14 @@ function App() {
   }
 
   function handleClick(i) {
-  const newReview = [...reviews].filter((com, revs) => 
+  const newReview = [...reviews].filter((revs, revs) => 
   { console.log("Revs: ",revs); return revs !==i});   
   console.log("update: ", newReview);
   setReview(newReview)
     }
 
-    function renderReview(com,i) { 
-      return <Review value={com} onClickButton={() => handleClick(i,com)}/>;
+    function renderReview(revs,i) { 
+      return <Review value={revs} onClickButton={() => handleClick(i,revs)}/>;
     }
 
     function saveClick(){
@@ -53,13 +53,13 @@ function App() {
     <div className="App">
       <header className="App-header">
         <p style={{color: "pink",fontSize:50,fontWeight: 'bold'}}> The comments and ratings you have entered </p>
-        {reviews.map((com,i) => (
-          <p> ID: {com.id}, MovieID: {com.movieid}, Comment: {com.comments}
+        {reviews.map((revs,i) => (
+          <p> ID: {revs.id}, MovieID: {revs.movieid}, Comment: {revs.comments}
           <form>
             Rating:
-          <input type="number" value={com.ratings} min="1" max="10" onChange={(event) => handleUpdateRat(event.target.value,com.id)}/> 
+          <input type="number" value={revs.ratings} min="1" max="10" onChange={(event) => handleUpdateRat(event.target.value,revs.id)}/> 
          </form>
-         {renderReview(com.comments, i)}
+         {renderReview(revs.comments, i)}
           </p>
         ))} 
         <button onClick={saveClick}> Save Review</button>
