@@ -3,7 +3,8 @@ import os
 import flask
 from flask import Flask, render_template
 from moviesDB import get_movie_data
-#from wiki_info import get_wiki_link
+
+# from wiki_info import get_wiki_link
 from dotenv import load_dotenv, find_dotenv
 from flask import request, flash
 from models import db, Users, Reviews
@@ -36,7 +37,8 @@ with app.app_context():
 def load_user(user_id):
     return Users.query.get(int(user_id))
 
-#start adding routes here 
+
+# start adding routes here
 
 # set up a separate route to serve the index.html file generated
 # by create-react-app/npm run build.
@@ -58,9 +60,11 @@ def index():
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-    return render_template("login.html")    
+    return render_template("login.html")
 
-    #adding routes from milestone2
+    # adding routes from milestone2
+
+
 # adding different routes for login and register
 # login page
 @app.route("/login_info", methods=["GET", "POST"])
@@ -111,7 +115,8 @@ def main():
         # https://www.tutorialspoint.com/sqlalchemy/sqlalchemy_orm_adding_objects.htm
         # adding both the rating and comment on the samw row/at the same time
         newData = Reviews(
-            comment=comment, rating=rating, movieIDs=movieid, user_name=user_name)
+            comment=comment, rating=rating, movieIDs=movieid, user_name=user_name
+        )
         db.session.add(newData)
         db.session.commit()
         return flask.redirect(flask.url_for("main"))
@@ -120,11 +125,11 @@ def main():
     num = len(queryRatings)
 
     allRatings = [queryRatings[tple].rating for tple in range(num)]
-    allComments = [queryRatings[tple].comment for tple in range(num)]
+    all_Comments = [queryRatings[tple].comment for tple in range(num)]
     allUsers = [queryRatings[tple].user_name for tple in range(num)]
 
     lenR = len(allRatings)
-    lenC = len(allComments)
+    lenC = len(all_Comments)
     lenU = len(allUsers)
 
     return render_template(
@@ -135,88 +140,99 @@ def main():
         image=image,
         urlLink=urlLink,
         randomPICK=randomPICK,
-        allComments=allComments,
+        all_Comments=all_Comments,
         allRatings=allRatings,
         allUsers=allUsers,
         lenR=lenR,
         lenC=lenC,
-        lenU=lenU)
+        lenU=lenU,
+    )
 
-#need to load the comments/ratings for each specific user
+
+# need to load the comments/ratings for each specific user
 @app.route("/userReviews")
 @login_required
 def userReviews():
-    #get the user id then for all those ids get that!!will get the whole tuple, then access the elemts at 
-    #comments and at ratings then allow for changes there somehow 
-    user_name=current_user.username
-    queryUser = Reviews.query.filter_by(user_name=user_name).all()
-    num = len(queryUser) 
-    #accessing all columns from reviews table for this specific logged in user
-    allIds =[queryUser[tple].id for tple in range(num)]
-    allMovieIds= [queryUser[tple].movieIDs for tple in range(num)]
-    allComments = [queryUser[tple].comment for tple in range(num)]
-    #only need the length of one since they're all the same length
-    num2= len(allComments)
-    allR = [queryUser[tple].rating for tple in range(num)]
-    
-    #https://stackoverflow.com/questions/31181830/adding-item-to-dictionary-within-loop
-    #creating list of dictionaries to jsonify and fetch from app.js file 
+    # get the user id then for all those ids get that!!will get the whole tuple, then access the elemts at
+    # comments and at ratings then allow for changes there somehow
+    user_name = current_user.username
+    query_User = Reviews.query.filter_by(user_name=user_name).all()
+    num = len(query_User)
+    # accessing all columns from reviews table for this specific logged in user
+    all_Ids = [query_User[tple].id for tple in range(num)]
+    all_Movie_Ids = [query_User[tple].movieIDs for tple in range(num)]
+    all_Comments = [query_User[tple].comment for tple in range(num)]
+    # only need the length of one since they're all the same length
+    num2 = len(all_Comments)
+    allR = [query_User[tple].rating for tple in range(num)]
+
+    # https://stackoverflow.com/questions/31181830/adding-item-to-dictionary-within-loop
+    # creating list of dictionaries to jsonify and fetch from app.js file
     test = []
-    for i in range(0,num2):
-        di = {'id': allIds[i],'movieid': allMovieIds[i],'comments':  allComments[i], "ratings":allR[i]} 
-        test.append(di)
+    for i in range(0, num2):
+        dict = {
+            "id": all_Ids[i],
+            "movieid": all_Movie_Ids[i],
+            "comments": all_Comments[i],
+            "ratings": allR[i],
+        }
+        test.append(dict)
     return flask.jsonify(test)
 
-@app.route("/newRoute", methods=["POST"])  
+
+@app.route("/newRoute", methods=["POST"])
 def update():
-    #function to update the DB based on fetch sent from react 
-    data= flask.request.json
-    dataLen=len(data)
+    # function to update the DB based on fetch sent from react
+    data = flask.request.json
+    dataLen = len(data)
     print("list of dicts:", data)
 
-    #trying to access data sent from reacct, 
-    #getting each of the ids included
-    EachData=[tple["id"] for tple in data]
-    idlen= len(EachData)
+    # trying to access data sent from reacct,
+    # getting each of the ids included
+    EachData = [tple["id"] for tple in data]
+    idlen = len(EachData)
     print("updated info sent from react", EachData)
 
-     #want to query existing data in DB
-     #need to only get ids from reviews where this user did 
-    user_name=current_user.username
+    # want to query existing data in DB
+    # need to only get ids from reviews where this user did
+    user_name = current_user.username
     queryreviewID = Reviews.query.filter_by(user_name=user_name).all()
     num = len(queryreviewID)
     print("all stuff in DB", queryreviewID)
-    #getttig the review id from DB
-    allUserData =[queryreviewID[tple].id for tple in range(num)]
+    # getttig the review id from DB
+    allUserData = [queryreviewID[tple].id for tple in range(num)]
     allR = [queryreviewID[tple].rating for tple in range(num)]
-    #num2= len(allUserData)
-    print("ids of reviews from user, in DB" , allUserData)
-    #cast id as INT !!!!!!!     
+    # num2= len(allUserData)
+    print("ids of reviews from user, in DB", allUserData)
+    # cast id as INT !!!!!!!
 
     list_difference = [item for item in allUserData if item not in EachData]
     lenDifference = len(list_difference)
     print(list_difference)
     for i in range(lenDifference):
         id = list_difference[i]
-        print("i" , id)
-        Reviews.query.filter(Reviews.id==id).delete()
+        print("i", id)
+        Reviews.query.filter(Reviews.id == id).delete()
     db.session.commit()
 
-    
     for i in range(dataLen):
-        idReact= data[i]["id"]
+        idReact = data[i]["id"]
         ratings = data[i]["ratings"]
-        if allUserData[i]==idReact:
-            if allR[i]!=ratings:
-                Reviews.query.filter(Reviews.id==idReact).update({Reviews.rating: ratings})
+        if allUserData[i] == idReact:
+            if allR[i] != ratings:
+                Reviews.query.filter(Reviews.id == idReact).update(
+                    {Reviews.rating: ratings}
+                )
         db.session.commit()
     return ""
+
 
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
     return flask.redirect(flask.url_for("home"))
+
 
 app.register_blueprint(bp)
 
