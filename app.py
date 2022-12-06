@@ -170,13 +170,14 @@ def userReviews():
     # creating list of dictionaries to jsonify and fetch from app.js file
     listDictReviews = []
     for i in range(0, num2):
-        dict = {
-            "id": all_Ids[i],
-            "movieid": all_Movie_Ids[i],
-            "comments": all_Comments[i],
-            "ratings": allR[i],
-        }
-        listDictReviews.append(dict)
+        if all_Movie_Ids[i] != all_Movie_Ids[i]:
+            dict = {
+                "id": all_Ids[i],
+                "movieid": all_Movie_Ids[i],
+                "comments": all_Comments[i],
+                "ratings": allR[i],
+            }
+            listDictReviews.append(dict)
     return flask.jsonify(listDictReviews)
 
 
